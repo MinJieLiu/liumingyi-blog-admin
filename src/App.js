@@ -1,18 +1,47 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 
-class App extends Component {
+export const ARTICLE_LIST_QUERY = gql`
+  query GetArticleList {
+    articleList {
+      rows {
+        id
+        type
+        sort
+        name
+        title
+        content
+        status
+      }
+    }
+  }
+`;
+
+class App extends React.Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className="app">
+        <Query query={ARTICLE_LIST_QUERY}>
+          {({ loading, error, data }) => {
+            if (loading) {
+              return <div>Loading</div>;
+            }
+            if (error) {
+              return <h1>ERROR</h1>;
+            }
+            return (
+              <div>
+                {data.articleList.rows.map(item => (
+                  <div key={item.id}>
+                    <span>{item.name}</span>
+                    <span>{item.content}</span>
+                  </div>
+                ))}
+              </div>
+            );
+          }}
+        </Query>
       </div>
     );
   }
