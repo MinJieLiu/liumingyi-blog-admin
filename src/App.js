@@ -35,6 +35,7 @@ class App extends React.Component {
                 {data.articleList.rows.map(item => (
                   <div key={item.id}>
                     <span>{item.name}</span>
+                    <span>{item.title}</span>
                     <span>{item.content}</span>
                   </div>
                 ))}
