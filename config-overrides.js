@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable import/no-extraneous-dependencies */
 
 const { injectBabelPlugin, compose } = require('react-app-rewired');
 const rewireLess = require('react-app-rewire-less');
