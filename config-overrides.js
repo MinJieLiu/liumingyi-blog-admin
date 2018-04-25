@@ -1,14 +1,14 @@
 /* eslint-disable */
 
-const { injectBabelPlugin } = require('react-app-rewired');
+const { injectBabelPlugin, compose } = require('react-app-rewired');
 const rewireLess = require('react-app-rewire-less');
 
-module.exports = function override(config, env) {
-  config = injectBabelPlugin(['import', { libraryName: 'antd', style: true }], config);
-
-  config = rewireLess.withLoaderOptions({
+const rewires = compose(
+  config => injectBabelPlugin(['styled-components'], config),
+  rewireLess.withLoaderOptions({
     modifyVars: { '@primary-color': '#1DA57A' },
-  })(config, env);
+  }),
+  config => injectBabelPlugin(['import', { libraryName: 'antd', style: true }], config),
+);
 
-  return config;
-};
+module.exports = (config, env) => rewires(config, env);
