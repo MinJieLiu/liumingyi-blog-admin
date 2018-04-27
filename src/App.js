@@ -1,6 +1,12 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Button } from 'antd';
+import styled from 'styled-components';
+
+const Container = styled.div`
+ margin: 20px;
+`;
 
 export const ARTICLE_LIST_QUERY = gql`
   query GetArticleList {
@@ -21,7 +27,8 @@ export const ARTICLE_LIST_QUERY = gql`
 class App extends React.Component {
   render() {
     return (
-      <div className="app">
+      <Container className="app">
+        <Button type="primary">hello world</Button>
         <Query query={ARTICLE_LIST_QUERY}>
           {({ loading, error, data }) => {
             if (loading) {
@@ -43,7 +50,7 @@ class App extends React.Component {
             );
           }}
         </Query>
-      </div>
+      </Container>
     );
   }
 }
