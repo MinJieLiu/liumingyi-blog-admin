@@ -1,11 +1,13 @@
 {
   "extends": "airbnb",
+  "parser": "babel-eslint",
   "env": {
     "browser": true,
     "jest": true,
     "node": true
   },
   "rules": {
+    "import/prefer-default-export": 0,
     "jsx-a11y/no-static-element-interactions": 0,
     "jsx-a11y/no-noninteractive-element-interactions": 0,
     "react/prefer-stateless-function": 0,
