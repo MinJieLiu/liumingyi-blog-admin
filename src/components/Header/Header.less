@@ -1,0 +1,34 @@
+@import "../../styles/variable";
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  border-bottom: 1px solid @app-color-gray-light;
+}
+
+.switch {
+  padding: 0 20px;
+  cursor: pointer;
+  font-size: @app-font-size;
+  transition: all 0.4s @app-animation-base;
+
+  &:hover {
+    background-color: tint(@primary-color, 90);
+  }
+}
+
+.menu {
+  margin-right: 20px;
+  border: 0;
+  z-index: auto;
+
+  :global(.ant-menu) {
+    left: auto;
+    right: 0;
+  }
+
+  :global(.ant-menu-item:hover) {
+    background-color: tint(@primary-color, 90);
+  }
+}

@@ -1,5 +1,6 @@
 {
   "name": "liumingyi-blog-admin",
+  "description": "基于 React、Apollo 的博客系统",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
