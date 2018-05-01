@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ApolloConsumer } from 'react-apollo';
 import checkPermissions from './checkPermissions';
-import { MY_PERMISSIONS } from '../../services/profile';
+import { MY_PROFILE } from '../../services/profile';
 
 const Authorized = ({
   authority,
@@ -11,7 +11,7 @@ const Authorized = ({
 }) => (
   <ApolloConsumer>
     {cache => checkPermissions(
-      cache.readQuery({ query: MY_PERMISSIONS }).profile.menus.map(n => n.permission),
+      cache.readQuery({ query: MY_PROFILE }).profile.menus.map(n => n.permission),
       authority,
       children,
       noMatch,

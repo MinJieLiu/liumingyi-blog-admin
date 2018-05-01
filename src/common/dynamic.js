@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Spin } from 'antd';
 import styled from 'styled-components';
 
@@ -9,7 +10,7 @@ const Spinner = styled(Spin)`
 
 const defaultLoadingComponent = () => <Spinner size="large" />;
 
-function asyncComponent(config) {
+function getAsyncComponent(config) {
   const { resolve } = config;
 
   return class DynamicComponent extends React.Component {
@@ -52,7 +53,18 @@ function asyncComponent(config) {
   };
 }
 
-export default config => asyncComponent({
+export const AsyncComponent = ({ component, ...props }) => {
+  const Component = getAsyncComponent({
+    resolve: component,
+  });
+  return <Component {...props} />;
+};
+
+AsyncComponent.propTypes = {
+  component: PropTypes.func.isRequired,
+};
+
+export default config => getAsyncComponent({
   resolve: config.resolve || config.component,
   ...config,
 });

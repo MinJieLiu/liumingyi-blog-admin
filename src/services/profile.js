@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost';
 
-export const MY_PERMISSIONS = gql`
-  query GetMyPermissions {
+export const MY_PROFILE = gql`
+  query GetMyProfile {
     profile {
       id
       username
@@ -10,6 +10,8 @@ export const MY_PERMISSIONS = gql`
       nickname
       avatar
       introduction
+      createdAt
+      updatedAt
       authorizations {
         id
         provider
@@ -18,9 +20,17 @@ export const MY_PERMISSIONS = gql`
         id
         name
         sort
+        remarks
       }
       menus {
         id
+        name
+        type
+        icon
+        sort
+        enable
+        parentId
+        pathname
         permission
       }
     }
