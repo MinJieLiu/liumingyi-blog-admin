@@ -1,16 +1,17 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { Layout, Breadcrumb } from 'antd';
 import styled from 'styled-components';
 import DocumentTitle from 'react-document-title';
-import { Query, Mutation } from 'react-apollo';
-import menuData from '../common/menu';
+import { Query } from 'react-apollo';
 import routeData from '../common/route';
 import pkg from '../../package.json';
 import { MY_PROFILE } from '../services/profile';
 import { GET_APP } from '../services/app';
-import Header from '../components/Header';
+import NavHeader from '../components/NavHeader';
+import NavMenu from '../components/NavMenu';
 import QueryFilter from '../components/QueryFilter';
+import { AuthorizedRoute } from '../components/Authorized';
+import { AsyncComponent } from '../common/dynamic';
 
 const { Sider, Content, Footer } = Layout;
 
@@ -51,7 +52,7 @@ export default class BasicLayout extends React.PureComponent {
   render() {
     return (
       <Query query={MY_PROFILE}>
-        {({ data: { profile }, ...rest }) => (
+        {({ data, ...rest }) => (
           <QueryFilter {...rest}>
             <MainContainer>
               <Query query={GET_APP}>
@@ -62,10 +63,11 @@ export default class BasicLayout extends React.PureComponent {
                       collapsed={app.siderFold}
                       onCollapse={() => this.toggleSiderFold(app, client)}
                     >
-                      <div>菜单</div>
+                      <NavMenu siderFold={app.siderFold} menus={data.profile.menus} />
                     </Sider>
                     <Layout>
-                      <Header
+                      <NavHeader
+                        profile={data.profile}
                         siderFold={app.siderFold}
                         toggleSiderFold={() => this.toggleSiderFold(app, client)}
                       />
@@ -74,7 +76,20 @@ export default class BasicLayout extends React.PureComponent {
                           <Breadcrumb.Item>首页</Breadcrumb.Item>
                           <Breadcrumb.Item>用户管理</Breadcrumb.Item>
                         </NavBreadcrumb>
-                        <InnerContent>Hi {profile.username}.</InnerContent>
+                        <InnerContent>
+                          {routeData.map(route => (
+                            <AuthorizedRoute
+                              key={route.path}
+                              path={route.path}
+                              authority={route.authority}
+                              render={props => (
+                                <DocumentTitle title={route.title}>
+                                  <AsyncComponent component={route.component} {...props} />
+                                </DocumentTitle>
+                              )}
+                            />
+                          ))}
+                        </InnerContent>
                         <MainFooter>{pkg.description}</MainFooter>
                       </MainContent>
                     </Layout>

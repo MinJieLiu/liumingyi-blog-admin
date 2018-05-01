@@ -15,3 +15,11 @@ export const LOGIN = gql`
     }
   }
 `;
+
+export const LOGOUT = gql`
+  query logout {
+    logout {
+      result
+    }
+  }
+`;

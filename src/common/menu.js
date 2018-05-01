@@ -1,7 +1,7 @@
 // 菜单配置
 const menuConfig = [
   {
-    name: 'dashboard',
+    name: '仪表盘',
     icon: 'dashboard',
     path: 'dashboard',
     authority: 'SYS_INDEX',
@@ -14,18 +14,50 @@ const menuConfig = [
   },
   {
     name: '角色管理',
-    icon: 'role',
+    icon: 'bars',
     path: 'role',
     authority: 'SYS_ROLE',
   },
   {
     name: '菜单管理',
-    icon: 'menu',
+    icon: 'profile',
     path: 'menu',
     authority: 'SYS_MENU',
     // hideInBreadcrumb: true,
     // hideInMenu: true,
     // hideInMenu: true,
+  },
+  {
+    name: '测试菜单',
+    path: 'exception',
+    children: [
+      {
+        name: '分析页',
+        path: 'analysis',
+        children: [
+          {
+            name: '分析页',
+            path: 'analysis',
+          },
+          {
+            name: '监控页',
+            path: 'monitor',
+          },
+          {
+            name: '工作台',
+            path: 'workplace',
+          },
+        ],
+      },
+      {
+        name: '监控页',
+        path: 'monitor',
+      },
+      {
+        name: '工作台',
+        path: 'workplace',
+      },
+    ],
   },
 ];
 

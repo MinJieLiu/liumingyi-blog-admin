@@ -1,5 +1,16 @@
 import { gql } from 'apollo-boost';
 
+export const MY_PERMISSIONS = gql`
+  query GetMyPermissions {
+    profile {
+      menus {
+        id
+        permission
+      }
+    }
+  }
+`;
+
 export const MY_PROFILE = gql`
   query GetMyProfile {
     profile {

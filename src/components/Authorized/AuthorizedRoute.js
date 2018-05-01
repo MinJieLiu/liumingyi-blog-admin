@@ -7,7 +7,7 @@ const AuthorizedRoute = ({
   component: Component,
   render,
   authority,
-  redirectPath,
+  redirectPath = '/login',
   ...rest
 }) => (
   <Authorized

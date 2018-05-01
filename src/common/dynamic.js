@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const Spinner = styled(Spin)`
   width: 100%;
-  margin: 40px 0 !important;
+  margin: 40px 0;
 `;
 
 const defaultLoadingComponent = () => <Spinner size="large" />;
