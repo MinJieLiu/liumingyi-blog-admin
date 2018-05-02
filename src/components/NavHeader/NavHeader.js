@@ -17,7 +17,7 @@ const Header = styled(Layout.Header)`
 const MenuSwitch = styled.div`
   padding: 0 20px;
   cursor: pointer;
-  
+
   &:hover {
     background: #eee;
   }
@@ -75,7 +75,6 @@ class NavHeader extends React.Component {
             </HeaderMenu>
           )}
         </ApolloConsumer>
-
       </Header>
     );
   }

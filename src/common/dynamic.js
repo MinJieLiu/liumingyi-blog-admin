@@ -1,12 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Spin } from 'antd';
-import styled from 'styled-components';
-
-const Spinner = styled(Spin)`
-  width: 100%;
-  margin: 40px 0;
-`;
+import Spinner from '../components/Spinner';
 
 const defaultLoadingComponent = () => <Spinner size="large" />;
 

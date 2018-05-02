@@ -1,25 +1,35 @@
 import React from 'react';
-import styled from 'styled-components';
-import { message, Spin } from 'antd';
+import PropTypes from 'prop-types';
+import { message } from 'antd';
+import { Redirect } from 'react-router-dom';
+import Spinner from '../Spinner';
 
-const Spinner = styled(Spin)`
-  width: 100%;
-  margin: 40px 0;
-`;
-
+/**
+ * GraphQL 查询过滤
+ */
 const QueryFilter = ({
   loading,
   error,
-  children,
+  render,
+  ...props
 }) => {
-  if (loading) {
-    return <Spinner />;
-  }
+  if (loading) return <Spinner size="large" />;
   if (error) {
+    // 跳转至登录
+    if (error.networkError && error.networkError.statusCode === 401) {
+      return <Redirect to={{ pathname: '/login' }} />;
+    }
+    // 输出错误信息
     message.error(error.message);
-    return error.message;
+    return null;
   }
-  return children;
+  return render(props);
+};
+
+QueryFilter.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.object,
+  render: PropTypes.func.isRequired,
 };
 
 export default QueryFilter;

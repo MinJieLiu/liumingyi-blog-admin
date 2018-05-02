@@ -52,51 +52,55 @@ export default class BasicLayout extends React.PureComponent {
   render() {
     return (
       <Query query={MY_PROFILE}>
-        {({ data, ...rest }) => (
-          <QueryFilter {...rest}>
-            <MainContainer>
-              <Query query={GET_APP}>
-                {({ data: { app }, client }) => (
-                  <Fragment>
-                    <Sider
-                      collapsible
-                      collapsed={app.siderFold}
-                      onCollapse={() => this.toggleSiderFold(app, client)}
-                    >
-                      <NavMenu siderFold={app.siderFold} menus={data.profile.menus} />
-                    </Sider>
-                    <Layout>
-                      <NavHeader
-                        profile={data.profile}
-                        siderFold={app.siderFold}
-                        toggleSiderFold={() => this.toggleSiderFold(app, client)}
-                      />
-                      <MainContent>
-                        <NavBreadcrumb>
-                          <Breadcrumb.Item>首页</Breadcrumb.Item>
-                          <Breadcrumb.Item>用户管理</Breadcrumb.Item>
-                        </NavBreadcrumb>
-                        <InnerContent>
-                          {routeData.map(route => (
-                            <AuthorizedRoute
-                              key={route.path}
-                              path={route.path}
-                              authority={route.authority}
-                              render={props => (
-                                <DocumentTitle title={route.title}>
-                                  <AsyncComponent component={route.component} {...props} />
-                                </DocumentTitle>
-                              )}
-                            />
-                          ))}
-                        </InnerContent>
-                        <MainFooter>{pkg.description}</MainFooter>
-                      </MainContent>
-                    </Layout>
-                  </Fragment>
-                )}
-              </Query>
-            </MainContainer>
+        {rest => (
+          <QueryFilter
+            {...rest}
+            render={({ data }) => (
+              <MainContainer>
+                <Query query={GET_APP}>
+                  {({ data: { app }, client }) => (
+                    <Fragment>
+                      <Sider
+                        collapsible
+                        collapsed={app.siderFold}
+                        onCollapse={() => this.toggleSiderFold(app, client)}
+                      >
+                        <NavMenu siderFold={app.siderFold} menus={data.profile.menus} />
+                      </Sider>
+                      <Layout>
+                        <NavHeader
+                          profile={data.profile}
+                          siderFold={app.siderFold}
+                          toggleSiderFold={() => this.toggleSiderFold(app, client)}
+                        />
+                        <MainContent>
+                          <NavBreadcrumb>
+                            <Breadcrumb.Item>首页</Breadcrumb.Item>
+                            <Breadcrumb.Item>用户管理</Breadcrumb.Item>
+                          </NavBreadcrumb>
+                          <InnerContent>
+                            {routeData.map(route => (
+                              <AuthorizedRoute
+                                key={route.path}
+                                path={route.path}
+                                authority={route.authority}
+                                render={props => (
+                                  <DocumentTitle title={route.title}>
+                                    <AsyncComponent component={route.component} {...props} />
+                                  </DocumentTitle>
+                                )}
+                              />
+                            ))}
+                          </InnerContent>
+                          <MainFooter>{pkg.description}</MainFooter>
+                        </MainContent>
+                      </Layout>
+                    </Fragment>
+                  )}
+                </Query>
+              </MainContainer>
+            )}
+          >
           </QueryFilter>
         )}
       </Query>
