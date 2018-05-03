@@ -2,17 +2,19 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Menu, Icon } from 'antd';
-import menuData from '../../common/menu';
 
 /**
- * 生成菜单
+ * 递归生成导航菜单
+ * type: 1：菜单，2：链接，3：按钮
  * @return ReactNode
  */
-export const convertToNavMenu = data => (
-  data.map(item => (
-    item.children ? (
+export const convertToNavMenu = (data, parentId = 0) => data
+  .filter(item => item.parentId === parentId && item.id !== parentId)
+  .map(item => (
+    // 如果当前的子菜单只包含 “按钮” 类型，则不继续递归
+    data.some(n => n.parentId === item.id && n.type !== 3) ? (
       <Menu.SubMenu
-        key={item.path}
+        key={item.id}
         title={(
           <Fragment>
             <Icon type={item.icon || 'file'} />
@@ -20,51 +22,64 @@ export const convertToNavMenu = data => (
           </Fragment>
         )}
       >
-        {convertToNavMenu(item.children)}
+        {convertToNavMenu(data, item.id)}
       </Menu.SubMenu>
     ) : (
-      <Menu.Item key={item.path}>
+      <Menu.Item key={item.id}>
         <Icon type={item.icon || 'file'} />
         <span className="nav-text">{item.name}</span>
       </Menu.Item>
     )
-  ))
-);
+  ));
 
-class LeftMenu extends React.Component {
+class NavMenu extends React.Component {
   static propTypes = {
-    siderFold: PropTypes.bool.isRequired,
     history: PropTypes.object,
+    location: PropTypes.object.isRequired,
+    siderFold: PropTypes.bool.isRequired,
+    menus: PropTypes.array.isRequired,
   };
 
-  handleMenuSelect = ({ key }) => {
-    const { history } = this.props;
-
+  handleMenuSelect = (params) => {
+    const { history, menus } = this.props;
+    const { pathname } = menus.find(n => n.id === Number(params.key));
+    // 若是站外链接，则跳转
+    if (pathname.includes('//')) {
+      window.open(pathname);
+      return;
+    }
     // push
     history.push({
-      pathname: key,
+      pathname,
     });
   };
 
   render() {
     const {
+      location,
       siderFold,
+      menus,
     } = this.props;
 
-    // 当前默认展开的菜单
+    // 当前选中的菜单
+    const selectedMenus = menus.filter(n => location.pathname === n.pathname);
 
     return (
       <Menu
         theme="dark"
         mode={siderFold ? 'vertical' : 'inline'}
         onSelect={this.handleMenuSelect}
-        selectedKeys={['1']}
-        defaultOpenKeys={['1']}
+        selectedKeys={selectedMenus.map(n => String(n.id))}
+        defaultOpenKeys={(
+          menus
+            .filter(m => selectedMenus.some(n => n.parentId === m.id))
+            .map(n => String(n.id))
+        )}
       >
-        {convertToNavMenu(menuData)}
+        {convertToNavMenu(menus)}
       </Menu>
     );
   }
 }
 
-export default withRouter(LeftMenu);
+export default withRouter(NavMenu);

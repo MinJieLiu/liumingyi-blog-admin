@@ -8,8 +8,15 @@ import './index.css';
 
 const client = new ApolloClient({
   uri: 'http://localhost:7001/graphql',
-  fetchOptions: {
-    credentials: 'include',
+  // fetchOptions: {
+  //   credentials: 'include',
+  // },
+  request(operation) {
+    operation.setContext({
+      fetchOptions: {
+        credentials: 'include',
+      },
+    });
   },
   clientState: {
     ...resolvers,

@@ -19,6 +19,12 @@ const MainContainer = styled(Layout)`
   min-height: 100vh;
 `;
 
+const Logo = styled.div`
+  margin: 16px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.2);
+`;
+
 const MainContent = styled(Content)`
   margin: 0 16px;
 `;
@@ -62,6 +68,7 @@ export default class BasicLayout extends React.PureComponent {
                     collapsed={app.siderFold}
                     onCollapse={() => this.toggleSiderFold(app, client)}
                   >
+                    <Logo />
                     <NavMenu siderFold={app.siderFold} menus={data.profile.menus} />
                   </Sider>
                   <Layout>

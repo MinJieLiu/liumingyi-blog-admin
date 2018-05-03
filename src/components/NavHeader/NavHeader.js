@@ -43,7 +43,6 @@ class NavHeader extends React.Component {
       const { data } = await client.query({ query: LOGOUT });
       if (data.logout.result) {
         message.success('退出成功');
-        client.resetStore();
         this.props.history.replace('/login');
       }
     }
