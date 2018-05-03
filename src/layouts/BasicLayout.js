@@ -9,9 +9,9 @@ import { MY_PROFILE } from '../services/profile';
 import { GET_APP } from '../services/app';
 import NavHeader from '../components/NavHeader';
 import NavMenu from '../components/NavMenu';
-import QueryFilter from '../components/QueryFilter';
 import { AuthorizedRoute } from '../components/Authorized';
 import { AsyncComponent } from '../common/dynamic';
+import queryFilter from '../common/queryFilter';
 
 const { Sider, Content, Footer } = Layout;
 
@@ -52,57 +52,51 @@ export default class BasicLayout extends React.PureComponent {
   render() {
     return (
       <Query query={MY_PROFILE}>
-        {rest => (
-          <QueryFilter
-            {...rest}
-            render={({ data }) => (
-              <MainContainer>
-                <Query query={GET_APP}>
-                  {({ data: { app }, client }) => (
-                    <Fragment>
-                      <Sider
-                        collapsible
-                        collapsed={app.siderFold}
-                        onCollapse={() => this.toggleSiderFold(app, client)}
-                      >
-                        <NavMenu siderFold={app.siderFold} menus={data.profile.menus} />
-                      </Sider>
-                      <Layout>
-                        <NavHeader
-                          profile={data.profile}
-                          siderFold={app.siderFold}
-                          toggleSiderFold={() => this.toggleSiderFold(app, client)}
-                        />
-                        <MainContent>
-                          <NavBreadcrumb>
-                            <Breadcrumb.Item>首页</Breadcrumb.Item>
-                            <Breadcrumb.Item>用户管理</Breadcrumb.Item>
-                          </NavBreadcrumb>
-                          <InnerContent>
-                            {routeData.map(route => (
-                              <AuthorizedRoute
-                                key={route.path}
-                                path={route.path}
-                                authority={route.authority}
-                                render={props => (
-                                  <DocumentTitle title={route.title}>
-                                    <AsyncComponent component={route.component} {...props} />
-                                  </DocumentTitle>
-                                )}
-                              />
-                            ))}
-                          </InnerContent>
-                          <MainFooter>{pkg.description}</MainFooter>
-                        </MainContent>
-                      </Layout>
-                    </Fragment>
-                  )}
-                </Query>
-              </MainContainer>
-            )}
-          >
-          </QueryFilter>
-        )}
+        {queryFilter(({ data }) => (
+          <MainContainer>
+            <Query query={GET_APP}>
+              {({ data: { app }, client }) => (
+                <Fragment>
+                  <Sider
+                    collapsible
+                    collapsed={app.siderFold}
+                    onCollapse={() => this.toggleSiderFold(app, client)}
+                  >
+                    <NavMenu siderFold={app.siderFold} menus={data.profile.menus} />
+                  </Sider>
+                  <Layout>
+                    <NavHeader
+                      profile={data.profile}
+                      siderFold={app.siderFold}
+                      toggleSiderFold={() => this.toggleSiderFold(app, client)}
+                    />
+                    <MainContent>
+                      <NavBreadcrumb>
+                        <Breadcrumb.Item>首页</Breadcrumb.Item>
+                        <Breadcrumb.Item>用户管理</Breadcrumb.Item>
+                      </NavBreadcrumb>
+                      <InnerContent>
+                        {routeData.map(route => (
+                          <AuthorizedRoute
+                            key={route.path}
+                            path={route.path}
+                            authority={route.authority}
+                            render={props => (
+                              <DocumentTitle title={route.title}>
+                                <AsyncComponent component={route.component} {...props} />
+                              </DocumentTitle>
+                            )}
+                          />
+                        ))}
+                      </InnerContent>
+                      <MainFooter>{pkg.description}</MainFooter>
+                    </MainContent>
+                  </Layout>
+                </Fragment>
+              )}
+            </Query>
+          </MainContainer>
+        ))}
       </Query>
     );
   }

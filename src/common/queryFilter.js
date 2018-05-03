@@ -1,16 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { message } from 'antd';
 import { Redirect } from 'react-router-dom';
-import Spinner from '../Spinner';
+import Spinner from '../components/Spinner';
 
 /**
  * GraphQL 查询过滤
  */
-const QueryFilter = ({
+export default render => ({
   loading,
   error,
-  render,
   ...props
 }) => {
   if (loading) return <Spinner size="large" />;
@@ -25,11 +23,3 @@ const QueryFilter = ({
   }
   return render(props);
 };
-
-QueryFilter.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.object,
-  render: PropTypes.func.isRequired,
-};
-
-export default QueryFilter;
