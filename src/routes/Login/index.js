@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Mutation } from 'react-apollo';
 import { Form, Icon, Input, Button, message } from 'antd';
 import { LOGIN } from '../../services/user';
+import { getCurrentErrorMessage } from '../../utils/graphQLErrorHandler';
 
 const Container = styled.section`
   display: flex;
@@ -39,15 +40,15 @@ class Login extends React.Component {
     const { form, history } = this.props;
     form.validateFields(async (err, values) => {
       if (!err) {
-        const { error, data } = await login({
-          variables: values,
-        });
-        if (error) {
-          message.error(error.message);
-          return;
-        }
-        if (data.login.id) {
-          history.replace('/');
+        try {
+          const { data } = await login({
+            variables: values,
+          });
+          if (data.login.id) {
+            history.replace('/');
+          }
+        } catch (ex) {
+          message.error(getCurrentErrorMessage(ex));
         }
       }
     });
@@ -66,12 +67,12 @@ class Login extends React.Component {
                 <Form.Item>
                   {getFieldDecorator('username', {
                     rules: [{ required: true, message: '请输入用户名！' }],
-                  })(<Input prefix={<Icon type="user" />} placeholder="用户名" />)}
+                  })(<Input prefix={<Icon type="user" />} placeholder="用户名" maxLength={20} />)}
                 </Form.Item>
                 <Form.Item>
                   {getFieldDecorator('password', {
                     rules: [{ required: true, message: '请输入密码！' }],
-                  })(<Input prefix={<Icon type="lock" />} type="password" placeholder="密码" />)}
+                  })(<Input prefix={<Icon type="lock" />} type="password" placeholder="密码" maxLength={20} />)}
                 </Form.Item>
                 <Button type="primary" htmlType="submit" loading={loading}>登录</Button>
               </Form>
