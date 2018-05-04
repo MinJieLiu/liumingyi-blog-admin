@@ -44,12 +44,12 @@ const MainFooter = styled(Footer)`
 `;
 
 export default class BasicLayout extends React.PureComponent {
-  toggleSiderFold = (app, client) => {
+  handleToggleMenu = (app, client) => {
     client.writeData({
       data: {
         app: {
           ...app,
-          siderFold: !app.siderFold,
+          MenuCollapsed: !app.MenuCollapsed,
         },
       },
     });
@@ -65,17 +65,17 @@ export default class BasicLayout extends React.PureComponent {
                 <Fragment>
                   <Sider
                     collapsible
-                    collapsed={app.siderFold}
-                    onCollapse={() => this.toggleSiderFold(app, client)}
+                    collapsed={app.MenuCollapsed}
+                    onCollapse={() => this.handleToggleMenu(app, client)}
                   >
                     <Logo />
-                    <NavMenu siderFold={app.siderFold} menus={data.profile.menus} />
+                    <NavMenu MenuCollapsed={app.MenuCollapsed} menus={data.profile.menus} />
                   </Sider>
                   <Layout>
                     <NavHeader
                       profile={data.profile}
-                      siderFold={app.siderFold}
-                      toggleSiderFold={() => this.toggleSiderFold(app, client)}
+                      MenuCollapsed={app.MenuCollapsed}
+                      toggleMenu={() => this.handleToggleMenu(app, client)}
                     />
                     <MainContent>
                       <NavBreadcrumb>

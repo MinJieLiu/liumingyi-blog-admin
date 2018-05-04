@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost';
 
 export const LOGIN = gql`
-  query login($username: String! $password: String!) {
+  mutation login($username: String! $password: String!) {
     login(username: $username password: $password) {
       id
       username
@@ -17,7 +17,7 @@ export const LOGIN = gql`
 `;
 
 export const LOGOUT = gql`
-  query logout {
+  mutation logout {
     logout {
       result
     }

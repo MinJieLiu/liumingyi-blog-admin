@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { ApolloConsumer } from 'react-apollo';
-import { Form, Icon, Input, Button } from 'antd';
+import { Mutation } from 'react-apollo';
+import { Form, Icon, Input, Button, message } from 'antd';
 import { LOGIN } from '../../services/user';
-
-const FormItem = Form.Item;
 
 const Container = styled.section`
   display: flex;
@@ -36,15 +34,18 @@ class Login extends React.Component {
     history: PropTypes.object.isRequired,
   };
 
-  handleSubmit = (e, client) => {
+  handleSubmit = (e, login) => {
     e.preventDefault();
     const { form, history } = this.props;
     form.validateFields(async (err, values) => {
       if (!err) {
-        const { data } = await client.query({
-          query: LOGIN,
+        const { error, data } = await login({
           variables: values,
         });
+        if (error) {
+          message.error(error.message);
+          return;
+        }
         if (data.login.id) {
           history.replace('/');
         }
@@ -56,28 +57,28 @@ class Login extends React.Component {
     const { getFieldDecorator } = this.props.form;
 
     return (
-      <ApolloConsumer>
-        {client => (
+      <Mutation mutation={LOGIN}>
+        {(login, { loading }) => (
           <Container>
             <Content>
               <Logo>Welcome!</Logo>
-              <Form onSubmit={e => this.handleSubmit(e, client)}>
-                <FormItem>
+              <Form onSubmit={e => this.handleSubmit(e, login)}>
+                <Form.Item>
                   {getFieldDecorator('username', {
                     rules: [{ required: true, message: '请输入用户名！' }],
                   })(<Input prefix={<Icon type="user" />} placeholder="用户名" />)}
-                </FormItem>
-                <FormItem>
+                </Form.Item>
+                <Form.Item>
                   {getFieldDecorator('password', {
                     rules: [{ required: true, message: '请输入密码！' }],
                   })(<Input prefix={<Icon type="lock" />} type="password" placeholder="密码" />)}
-                </FormItem>
-                <Button type="primary" htmlType="submit">登录</Button>
+                </Form.Item>
+                <Button type="primary" htmlType="submit" loading={loading}>登录</Button>
               </Form>
             </Content>
           </Container>
         )}
-      </ApolloConsumer>
+      </Mutation>
     );
   }
 }

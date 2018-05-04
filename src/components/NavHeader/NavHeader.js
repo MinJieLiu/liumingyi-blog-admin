@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
-import { ApolloConsumer } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import { Layout, Icon, Menu, message } from 'antd';
 import { LOGOUT } from '../../services/user';
 
@@ -31,16 +31,16 @@ const HeaderMenu = styled(Menu)`
 
 class NavHeader extends React.Component {
   static propTypes = {
-    siderFold: PropTypes.bool.isRequired,
-    profile: PropTypes.object.isRequired,
-    toggleSiderFold: PropTypes.func.isRequired,
     history: PropTypes.object,
+    MenuCollapsed: PropTypes.bool.isRequired,
+    profile: PropTypes.object.isRequired,
+    toggleMenu: PropTypes.func.isRequired,
   };
 
-  handleMenuClick = async ({ key }, client) => {
+  handleMenuClick = async ({ key }, logout) => {
     // 登出
     if (key === 'logout') {
-      const { data } = await client.query({ query: LOGOUT });
+      const { data } = await logout();
       if (data.logout.result) {
         message.success('退出成功');
         this.props.history.replace('/login');
@@ -50,22 +50,22 @@ class NavHeader extends React.Component {
 
   render() {
     const {
-      siderFold,
+      MenuCollapsed,
       profile,
-      toggleSiderFold,
+      toggleMenu,
     } = this.props;
 
     return (
       <Header>
-        <MenuSwitch onClick={toggleSiderFold}>
-          <Icon type={siderFold ? 'menu-unfold' : 'menu-fold'} />
+        <MenuSwitch onClick={toggleMenu}>
+          <Icon type={MenuCollapsed ? 'menu-unfold' : 'menu-fold'} />
         </MenuSwitch>
-        <ApolloConsumer>
-          {client => (
+        <Mutation mutation={LOGOUT}>
+          {logout => (
             <HeaderMenu
               mode="horizontal"
               selectedKeys={[]}
-              onClick={param => this.handleMenuClick(param, client)}
+              onClick={param => this.handleMenuClick(param, logout)}
             >
               <Menu.SubMenu title={<span><Icon type="user" />{profile.nickname || profile.username}</span>}>
                 <Menu.Item><Icon type="solution" /> 个人信息</Menu.Item>
@@ -73,7 +73,7 @@ class NavHeader extends React.Component {
               </Menu.SubMenu>
             </HeaderMenu>
           )}
-        </ApolloConsumer>
+        </Mutation>
       </Header>
     );
   }

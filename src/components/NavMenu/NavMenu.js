@@ -36,7 +36,7 @@ class NavMenu extends React.Component {
   static propTypes = {
     history: PropTypes.object,
     location: PropTypes.object.isRequired,
-    siderFold: PropTypes.bool.isRequired,
+    MenuCollapsed: PropTypes.bool.isRequired,
     menus: PropTypes.array.isRequired,
   };
 
@@ -57,7 +57,7 @@ class NavMenu extends React.Component {
   render() {
     const {
       location,
-      siderFold,
+      MenuCollapsed,
       menus,
     } = this.props;
 
@@ -67,7 +67,7 @@ class NavMenu extends React.Component {
     return (
       <Menu
         theme="dark"
-        mode={siderFold ? 'vertical' : 'inline'}
+        mode={MenuCollapsed ? 'vertical' : 'inline'}
         onSelect={this.handleMenuSelect}
         selectedKeys={selectedMenus.map(n => String(n.id))}
         defaultOpenKeys={(
