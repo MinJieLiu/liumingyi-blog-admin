@@ -4,7 +4,7 @@
  * @returns { String }
  */
 export const getCurrentErrorMessage = (e) => {
-  if (e.graphQLErrors) {
+  if (e.graphQLErrors && e.graphQLErrors.length) {
     return e.graphQLErrors[0].message;
   }
   return e.message;

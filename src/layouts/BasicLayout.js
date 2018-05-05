@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Layout, Breadcrumb } from 'antd';
+import { Layout } from 'antd';
 import styled from 'styled-components';
 import DocumentTitle from 'react-document-title';
 import { Query } from 'react-apollo';
@@ -8,6 +8,7 @@ import pkg from '../../package.json';
 import { MY_PROFILE } from '../services/profile';
 import { GET_APP } from '../services/app';
 import NavHeader from '../components/NavHeader';
+import NavBreadcrumb from '../components/NavBreadcrumb';
 import NavMenu from '../components/NavMenu';
 import { AuthorizedRoute } from '../components/Authorized';
 import { AsyncComponent } from '../common/dynamic';
@@ -16,7 +17,7 @@ import queryFilter from '../common/queryFilter';
 const { Sider, Content, Footer } = Layout;
 
 const MainContainer = styled(Layout)`
-  min-height: 100vh;
+  height: 100%;
 `;
 
 const Logo = styled.div`
@@ -25,12 +26,14 @@ const Logo = styled.div`
   background: rgba(255, 255, 255, 0.2);
 `;
 
-const MainContent = styled(Content)`
-  margin: 0 16px;
+const MainLayout = styled(Layout)`
+  height: 100%;
 `;
 
-const NavBreadcrumb = styled(Breadcrumb)`
-  margin: 16px 0;
+const MainContent = styled(Content)`
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
 `;
 
 const InnerContent = styled.div`
@@ -40,6 +43,7 @@ const InnerContent = styled.div`
 `;
 
 const MainFooter = styled(Footer)`
+  flex-shrink: 0;
   text-align: center;
 `;
 
@@ -71,17 +75,14 @@ export default class BasicLayout extends React.PureComponent {
                     <Logo />
                     <NavMenu MenuCollapsed={app.MenuCollapsed} menus={data.profile.menus} />
                   </Sider>
-                  <Layout>
+                  <MainLayout>
                     <NavHeader
                       profile={data.profile}
                       MenuCollapsed={app.MenuCollapsed}
                       toggleMenu={() => this.handleToggleMenu(app, client)}
                     />
                     <MainContent>
-                      <NavBreadcrumb>
-                        <Breadcrumb.Item>首页</Breadcrumb.Item>
-                        <Breadcrumb.Item>用户管理</Breadcrumb.Item>
-                      </NavBreadcrumb>
+                      <NavBreadcrumb profile={data.profile} />
                       <InnerContent>
                         {routeData.map(route => (
                           <AuthorizedRoute
@@ -98,7 +99,7 @@ export default class BasicLayout extends React.PureComponent {
                       </InnerContent>
                       <MainFooter>{pkg.description}</MainFooter>
                     </MainContent>
-                  </Layout>
+                  </MainLayout>
                 </Fragment>
               )}
             </Query>
