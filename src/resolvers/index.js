@@ -1,6 +1,7 @@
 import merge from 'lodash/merge';
 
 import profile from './profile';
+import user from './user';
 
 const app = {
   defaults: {
@@ -11,4 +12,8 @@ const app = {
   },
 };
 
-export default merge(app, profile);
+export default merge(
+  app,
+  profile,
+  user,
+);

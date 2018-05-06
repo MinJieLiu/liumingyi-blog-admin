@@ -31,19 +31,22 @@ const HeaderMenu = styled(Menu)`
 
 class NavHeader extends React.Component {
   static propTypes = {
+    client: PropTypes.object.isRequired,
     history: PropTypes.object,
     MenuCollapsed: PropTypes.bool.isRequired,
     profile: PropTypes.object.isRequired,
     toggleMenu: PropTypes.func.isRequired,
   };
 
-  handleMenuClick = async ({ key }, logout) => {
+  handleMenuClick = async ({ key }, mutate) => {
     // 登出
     if (key === 'logout') {
-      const { data } = await logout();
+      const { client, history } = this.props;
+      const { data } = await mutate();
       if (data.logout.result) {
         message.success('退出成功');
-        this.props.history.replace('/login');
+        client.resetStore();
+        history.replace('/login');
       }
     }
   };
@@ -61,11 +64,11 @@ class NavHeader extends React.Component {
           <Icon type={MenuCollapsed ? 'menu-unfold' : 'menu-fold'} />
         </MenuSwitch>
         <Mutation mutation={LOGOUT}>
-          {logout => (
+          {mutate => (
             <HeaderMenu
               mode="horizontal"
               selectedKeys={[]}
-              onClick={param => this.handleMenuClick(param, logout)}
+              onClick={param => this.handleMenuClick(param, mutate)}
             >
               <Menu.SubMenu title={<span><Icon type="user" />{profile.nickname || profile.username}</span>}>
                 <Menu.Item><Icon type="solution" /> 个人信息</Menu.Item>

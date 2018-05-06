@@ -3,6 +3,7 @@ import { Layout } from 'antd';
 import styled from 'styled-components';
 import DocumentTitle from 'react-document-title';
 import { Query } from 'react-apollo';
+import { Route, Switch } from 'react-router-dom';
 import routeData from '../common/route';
 import pkg from '../../package.json';
 import { MY_PROFILE } from '../services/profile';
@@ -10,6 +11,7 @@ import { GET_APP } from '../services/app';
 import NavHeader from '../components/NavHeader';
 import NavBreadcrumb from '../components/NavBreadcrumb';
 import NavMenu from '../components/NavMenu';
+import Exception from '../components/Exception';
 import { AuthorizedRoute } from '../components/Authorized';
 import { AsyncComponent } from '../common/dynamic';
 import queryFilter from '../common/queryFilter';
@@ -31,8 +33,6 @@ const MainLayout = styled(Layout)`
 `;
 
 const MainContent = styled(Content)`
-  display: flex;
-  flex-direction: column;
   padding: 0 16px;
 `;
 
@@ -43,7 +43,6 @@ const InnerContent = styled.div`
 `;
 
 const MainFooter = styled(Footer)`
-  flex-shrink: 0;
   text-align: center;
 `;
 
@@ -77,6 +76,7 @@ export default class BasicLayout extends React.PureComponent {
                   </Sider>
                   <MainLayout>
                     <NavHeader
+                      client={client}
                       profile={data.profile}
                       MenuCollapsed={app.MenuCollapsed}
                       toggleMenu={() => this.handleToggleMenu(app, client)}
@@ -84,18 +84,21 @@ export default class BasicLayout extends React.PureComponent {
                     <MainContent>
                       <NavBreadcrumb profile={data.profile} />
                       <InnerContent>
-                        {routeData.map(route => (
-                          <AuthorizedRoute
-                            key={route.path}
-                            path={route.path}
-                            authority={route.authority}
-                            render={props => (
-                              <DocumentTitle title={route.title}>
-                                <AsyncComponent component={route.component} {...props} />
-                              </DocumentTitle>
-                            )}
-                          />
-                        ))}
+                        <Switch>
+                          {routeData.map(route => (
+                            <AuthorizedRoute
+                              key={route.path}
+                              path={route.path}
+                              authority={route.authority}
+                              render={props => (
+                                <DocumentTitle title={route.title || pkg.description}>
+                                  <AsyncComponent component={route.component} {...props} />
+                                </DocumentTitle>
+                              )}
+                            />
+                          ))}
+                          <Route render={() => <DocumentTitle title="404"><Exception type="404" /></DocumentTitle>} />
+                        </Switch>
                       </InnerContent>
                       <MainFooter>{pkg.description}</MainFooter>
                     </MainContent>

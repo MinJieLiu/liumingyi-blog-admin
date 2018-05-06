@@ -6,7 +6,6 @@ import { Breadcrumb } from 'antd';
 
 const StyledBreadcrumb = styled(Breadcrumb)`
   && {
-    flex-shrink: 0;
     margin: 16px 0;
   }
 `;

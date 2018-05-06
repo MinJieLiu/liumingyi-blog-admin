@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { darken } from 'polished';
 import { Mutation } from 'react-apollo';
 import { Form, Icon, Input, Button, message } from 'antd';
 import { LOGIN } from '../../services/user';
@@ -13,7 +14,9 @@ const Container = styled.section`
   align-items: center;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to top, #ccc 5%, #eee 100%);
+  background: linear-gradient(to top,
+    ${props => darken(0.2, props.theme.primaryColor)} 5%,
+    ${props => props.theme.primaryColor} 100%);
   overflow: hidden;
 `;
 
@@ -22,6 +25,7 @@ const Content = styled.div`
   width: 400px;
   background: white;
   border-radius: 4px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
 `;
 
 const Logo = styled.div`
