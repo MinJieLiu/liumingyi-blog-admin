@@ -7,7 +7,7 @@ import { convertToNumberField } from '../../utils/apolloHandler';
 import FormField from '../../components/Search/FormField';
 
 const SearchContainer = styled.section`
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   overflow: hidden;
 `;
 
