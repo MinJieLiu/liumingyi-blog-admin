@@ -1,8 +1,8 @@
 import React from 'react';
-import { message } from 'antd';
 import { Redirect } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import Spinner from '../components/Spinner';
+import Exception from '../components/Exception';
 
 /**
  * GraphQL 查询过滤
@@ -20,8 +20,7 @@ export default render => ({
       return <Redirect to={{ pathname: '/login' }} />;
     }
     // 输出错误信息
-    message.error(error.message);
-    return null;
+    return <Exception title="Error" desc={error.message} />;
   }
   return render({
     loading,

@@ -9,5 +9,5 @@ export const mapToFilters = dataMap =>
 /**
  * 将 Antd 排序转换为查询参数
  */
-export const convertToOrder = ({ field, order }) =>
+export const convertToOrder = ({ field, order }) => // eslint-disable-line no-confusing-arrow
   field ? [field, order === 'ascend' ? 'ASC' : 'DESC'] : null;

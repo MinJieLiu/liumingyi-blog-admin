@@ -39,7 +39,6 @@ const InnerContent = styled.div`
   margin-top: 16px;
   padding: 24px;
   background: white;
-  min-height: 360px;
 `;
 
 const MainFooter = styled(Layout.Footer)`

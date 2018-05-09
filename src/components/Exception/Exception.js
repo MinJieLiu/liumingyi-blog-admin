@@ -47,7 +47,7 @@ const Exception = ({
 );
 
 Exception.propTypes = {
-  type: PropTypes.oneOf(['403', '404', '500']),
+  type: PropTypes.oneOf(['400', '403', '404', '500']),
   title: PropTypes.string,
   desc: PropTypes.string,
 };

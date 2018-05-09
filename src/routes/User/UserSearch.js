@@ -1,20 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Row, Col, Form, Button, Input, Select } from 'antd';
-import { enableMap } from '../../common/fieldMap';
-import { convertToNumberField } from '../../utils/apolloHandler';
+import { Row, Col, Form, Button, Input } from 'antd';
 import FormField from '../../components/Search/FormField';
 
 const SearchContainer = styled.section`
   margin-bottom: 24px;
   overflow: hidden;
-`;
-
-const ButtonGroup = styled.div`
-  button + button {
-    margin-left: 10px;
-  }
 `;
 
 /**
@@ -27,7 +19,7 @@ class UserSearch extends React.Component {
     userQueryInput: PropTypes.object.isRequired,
   };
 
-  handleSearch = e => {
+  handleSearch = (e) => {
     e.preventDefault();
     const { client, userQueryInput, form } = this.props;
 
@@ -38,7 +30,6 @@ class UserSearch extends React.Component {
             userQueryInput: {
               ...userQueryInput,
               ...values,
-              enable: convertToNumberField(values.enable),
             },
           },
         });
@@ -55,7 +46,6 @@ class UserSearch extends React.Component {
         userQueryInput: {
           ...userQueryInput,
           ...values,
-          enable: convertToNumberField(values.enable),
         },
       },
     });
@@ -67,51 +57,40 @@ class UserSearch extends React.Component {
     return (
       <SearchContainer>
         <Form onSubmit={this.handleSearch}>
-          <Row type="flex" align="middle">
-            <Col>
+          <Row type="flex" align="middle" gutter={24}>
+            <Col xl={6} xxl={4}>
               <FormField label="用户名">
                 {getFieldDecorator('username', { initialValue: '' })(
                   <Input placeholder="用户名" maxLength={20} />,
                 )}
               </FormField>
             </Col>
-            <Col>
+            <Col xl={6} xxl={4}>
               <FormField label="邮箱">
                 {getFieldDecorator('email', { initialValue: '' })(
                   <Input placeholder="邮箱" maxLength={20} />,
                 )}
               </FormField>
             </Col>
-            <Col>
+            <Col xl={6} xxl={4}>
               <FormField label="手机">
                 {getFieldDecorator('mobile', { initialValue: '' })(
                   <Input placeholder="手机" maxLength={20} />,
                 )}
               </FormField>
             </Col>
-            <Col>
-              <FormField label="启用状态">
-                {getFieldDecorator('enable', { initialValue: '' })(
-                  <Select placeholder="请选择">
-                    <Select.Option value="">请选择</Select.Option>
-                    {Object.keys(enableMap).map(n => (
-                      <Select.Option key={n} value={n}>
-                        {enableMap[n]}
-                      </Select.Option>
-                    ))}
-                  </Select>,
+            <Col xl={6} xxl={4}>
+              <FormField label="角色">
+                {getFieldDecorator('roleIds', { initialValue: '' })(
+                  <Input placeholder="角色" maxLength={20} />,
                 )}
               </FormField>
             </Col>
           </Row>
           <Row>
-            <Col span={18}>
-              <ButtonGroup>
-                <Button type="primary" htmlType="submit">
-                  查询
-                </Button>
-                <Button onClick={this.handleClear}>清空</Button>
-              </ButtonGroup>
+            <Col span={24}>
+              <Button type="primary" htmlType="submit">查询</Button>
+              <Button onClick={this.handleClear}>清空</Button>
             </Col>
           </Row>
         </Form>

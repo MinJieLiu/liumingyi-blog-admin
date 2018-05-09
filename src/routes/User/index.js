@@ -24,7 +24,7 @@ export default class UserManage extends React.Component {
             variables={{ input: filterQuery(userQueryInput) }}
           >
             {queryFilter(({ data, loading }) => (
-              <div>
+              <Fragment>
                 <UserSearch client={client} userQueryInput={userQueryInput} />
                 <Table
                   loading={loading}
@@ -58,6 +58,7 @@ export default class UserManage extends React.Component {
                     title="启用状态"
                     dataIndex="enable"
                     filters={mapToFilters(enableMap)}
+                    filteredValue={userQueryInput.enable}
                     filterMultiple={false}
                     render={text => enableMap[text]}
                   />
@@ -89,7 +90,7 @@ export default class UserManage extends React.Component {
                     )}
                   />
                 </Table>
-              </div>
+              </Fragment>
             ))}
           </Query>
         )}

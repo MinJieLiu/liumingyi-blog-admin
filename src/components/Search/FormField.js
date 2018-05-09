@@ -4,10 +4,13 @@ import { Form } from 'antd';
 import styled from 'styled-components';
 
 const FormItem = styled(Form.Item)`
-  && {
+  &.ant-row {
     display: flex;
     align-items: center;
-    margin-right: 40px;
+  }
+
+  .ant-form-item-control-wrapper {
+    flex: 1;
   }
 `;
 
