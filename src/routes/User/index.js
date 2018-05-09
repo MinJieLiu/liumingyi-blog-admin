@@ -15,7 +15,6 @@ const { Column } = Table;
  * 用户管理
  */
 export default class UserManage extends React.Component {
-
   render() {
     return (
       <Query query={GET_USER_QUERY_INPUT}>
