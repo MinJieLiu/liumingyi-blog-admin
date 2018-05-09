@@ -16,7 +16,7 @@ const App = () => (
             path="/login"
             render={props => <AsyncComponent component={() => import('./routes/Login')} {...props} />}
           />
-          <Route path="/" render={props => <BasicLayout {...props} />} />
+          <Route render={props => <BasicLayout {...props} />} />
         </Switch>
       </BrowserRouter>
     </LocaleProvider>

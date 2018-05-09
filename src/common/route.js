@@ -1,9 +1,10 @@
 export default [
   {
-    title: 'dashboard',
-    path: '/dashboard',
+    title: '仪表盘',
+    path: '/',
     component: () => import('../routes/Dashboard'),
     authority: 'SYS_INDEX',
+    hideBreadcrumb: true,
   },
   {
     title: '用户管理',
