@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Query } from 'react-apollo';
 import styled from 'styled-components';
-import { Row, Col, Form, Button, Input } from 'antd';
+import { Row, Col, Form, Button, Input, Select } from 'antd';
+import queryFilter from '../../common/queryFilter';
 import FormField from '../../components/Search/FormField';
+import { GET_ROLE_FOR_SELECT } from '../../services/role';
 
 const SearchContainer = styled.section`
   margin-bottom: 24px;
@@ -81,9 +84,19 @@ class UserSearch extends React.Component {
             </Col>
             <Col xl={6} xxl={4}>
               <FormField label="角色">
-                {getFieldDecorator('roleIds', { initialValue: '' })(
-                  <Input placeholder="角色" maxLength={20} />,
-                )}
+                <Query query={GET_ROLE_FOR_SELECT}>
+                  {queryFilter(({ data }) => getFieldDecorator('roleIds', { initialValue: [] })(
+                    <Select
+                      showSearch
+                      mode="multiple"
+                      placeholder="角色"
+                    >
+                      {data.roleList.rows.map(item => (
+                        <Select.Option key={item.id}>{item.name}</Select.Option>
+                      ))}
+                    </Select>,
+                  ))}
+                </Query>
               </FormField>
             </Col>
           </Row>
