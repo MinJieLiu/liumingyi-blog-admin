@@ -27,13 +27,9 @@ class UserSearch extends React.Component {
     userQueryInput: PropTypes.object.isRequired,
   };
 
-  handleSearch = (e) => {
+  handleSearch = e => {
     e.preventDefault();
-    const {
-      client,
-      userQueryInput,
-      form,
-    } = this.props;
+    const { client, userQueryInput, form } = this.props;
 
     form.validateFields(async (err, values) => {
       if (!err) {
@@ -51,11 +47,7 @@ class UserSearch extends React.Component {
   };
 
   handleClear = () => {
-    const {
-      client,
-      userQueryInput,
-      form,
-    } = this.props;
+    const { client, userQueryInput, form } = this.props;
     form.resetFields();
     const values = form.getFieldsValue();
     client.writeData({
@@ -78,17 +70,23 @@ class UserSearch extends React.Component {
           <Row type="flex" align="middle">
             <Col>
               <FormField label="用户名">
-                {getFieldDecorator('username', { initialValue: '' })(<Input placeholder="用户名" maxLength={20} />)}
+                {getFieldDecorator('username', { initialValue: '' })(
+                  <Input placeholder="用户名" maxLength={20} />,
+                )}
               </FormField>
             </Col>
             <Col>
               <FormField label="邮箱">
-                {getFieldDecorator('email', { initialValue: '' })(<Input placeholder="邮箱" maxLength={20} />)}
+                {getFieldDecorator('email', { initialValue: '' })(
+                  <Input placeholder="邮箱" maxLength={20} />,
+                )}
               </FormField>
             </Col>
             <Col>
               <FormField label="手机">
-                {getFieldDecorator('mobile', { initialValue: '' })(<Input placeholder="手机" maxLength={20} />)}
+                {getFieldDecorator('mobile', { initialValue: '' })(
+                  <Input placeholder="手机" maxLength={20} />,
+                )}
               </FormField>
             </Col>
             <Col>
@@ -97,7 +95,9 @@ class UserSearch extends React.Component {
                   <Select placeholder="请选择">
                     <Select.Option value="">请选择</Select.Option>
                     {Object.keys(enableMap).map(n => (
-                      <Select.Option key={n} value={n}>{enableMap[n]}</Select.Option>
+                      <Select.Option key={n} value={n}>
+                        {enableMap[n]}
+                      </Select.Option>
                     ))}
                   </Select>,
                 )}
@@ -107,7 +107,9 @@ class UserSearch extends React.Component {
           <Row>
             <Col span={18}>
               <ButtonGroup>
-                <Button type="primary" htmlType="submit">查询</Button>
+                <Button type="primary" htmlType="submit">
+                  查询
+                </Button>
                 <Button onClick={this.handleClear}>清空</Button>
               </ButtonGroup>
             </Col>

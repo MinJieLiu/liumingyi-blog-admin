@@ -58,7 +58,8 @@ AsyncComponent.propTypes = {
   component: PropTypes.func.isRequired,
 };
 
-export default config => getAsyncComponent({
-  resolve: config.resolve || config.component,
-  ...config,
-});
+export default config =>
+  getAsyncComponent({
+    resolve: config.resolve || config.component,
+    ...config,
+  });

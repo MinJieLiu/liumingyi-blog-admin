@@ -19,7 +19,10 @@ export default class UserManage extends React.Component {
     return (
       <Query query={GET_USER_QUERY_INPUT}>
         {({ data: { userQueryInput }, client }) => (
-          <Query query={GET_USER_LIST} variables={{ input: filterQuery(userQueryInput) }}>
+          <Query
+            query={GET_USER_LIST}
+            variables={{ input: filterQuery(userQueryInput) }}
+          >
             {queryFilter(({ data, loading }) => (
               <div>
                 <UserSearch client={client} userQueryInput={userQueryInput} />

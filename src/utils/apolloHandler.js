@@ -7,7 +7,8 @@ import pickBy from 'lodash/pickBy';
  * @param { Object } queryObj
  * @returns { Object }
  */
-export const filterQuery = queryObj => pickBy(queryObj, (value, key) => value !== null && key !== '__typename');
+export const filterQuery = queryObj =>
+  pickBy(queryObj, (value, key) => value !== null && key !== '__typename');
 
 /**
  * 将查询字段转换为 number 类型

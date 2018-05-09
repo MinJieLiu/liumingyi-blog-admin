@@ -9,4 +9,5 @@ export const mapToFilters = dataMap =>
 /**
  * 将 Antd 排序转换为查询参数
  */
-export const convertToOrder = ({ field, order }) => (field ? [field, order === 'ascend' ? 'ASC' : 'DESC'] : null);
+export const convertToOrder = ({ field, order }) =>
+  field ? [field, order === 'ascend' ? 'ASC' : 'DESC'] : null;
