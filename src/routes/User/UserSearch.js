@@ -6,6 +6,7 @@ import { Row, Col, Form, Button, Input, Select } from 'antd';
 import queryFilter from '../../common/queryFilter';
 import FormField from '../../components/Search/FormField';
 import { GET_ROLE_FOR_SELECT } from '../../services/role';
+import { defaultQueryInput } from '../../resolvers/user';
 
 const SearchContainer = styled.section`
   margin-bottom: 24px;
@@ -41,14 +42,12 @@ class UserSearch extends React.Component {
   };
 
   handleClear = () => {
-    const { client, userQueryInput, form } = this.props;
+    const { client, form } = this.props;
     form.resetFields();
-    const values = form.getFieldsValue();
     client.writeData({
       data: {
         userQueryInput: {
-          ...userQueryInput,
-          ...values,
+          ...defaultQueryInput,
         },
       },
     });
@@ -63,21 +62,21 @@ class UserSearch extends React.Component {
           <Row type="flex" align="middle" gutter={24}>
             <Col xl={6} xxl={4}>
               <FormField label="用户名">
-                {getFieldDecorator('username', { initialValue: '' })(
+                {getFieldDecorator('username', { initialValue: defaultQueryInput.username })(
                   <Input placeholder="用户名" maxLength={20} />,
                 )}
               </FormField>
             </Col>
             <Col xl={6} xxl={4}>
               <FormField label="邮箱">
-                {getFieldDecorator('email', { initialValue: '' })(
+                {getFieldDecorator('email', { initialValue: defaultQueryInput.email })(
                   <Input placeholder="邮箱" maxLength={20} />,
                 )}
               </FormField>
             </Col>
             <Col xl={6} xxl={4}>
               <FormField label="手机">
-                {getFieldDecorator('mobile', { initialValue: '' })(
+                {getFieldDecorator('mobile', { initialValue: defaultQueryInput.mobile })(
                   <Input placeholder="手机" maxLength={20} />,
                 )}
               </FormField>
@@ -85,17 +84,19 @@ class UserSearch extends React.Component {
             <Col xl={6} xxl={4}>
               <FormField label="角色">
                 <Query query={GET_ROLE_FOR_SELECT}>
-                  {queryFilter(({ data }) => getFieldDecorator('roleIds', { initialValue: [] })(
-                    <Select
-                      showSearch
-                      mode="multiple"
-                      placeholder="角色"
-                    >
-                      {data.roleList.rows.map(item => (
-                        <Select.Option key={item.id}>{item.name}</Select.Option>
-                      ))}
-                    </Select>,
-                  ))}
+                  {queryFilter(({ data }) =>
+                    getFieldDecorator('roleIds', { initialValue: defaultQueryInput.roleIds })(
+                      <Select
+                        showSearch
+                        mode="multiple"
+                        placeholder="角色"
+                      >
+                        {data.roleList.rows.map(item => (
+                          <Select.Option key={item.id}>{item.name}</Select.Option>
+                        ))}
+                      </Select>,
+                    ),
+                  )}
                 </Query>
               </FormField>
             </Col>

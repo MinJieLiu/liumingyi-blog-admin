@@ -6,8 +6,13 @@ import { GET_USER_LIST, GET_USER_QUERY_INPUT } from '../../services/user';
 import UserSearch from './UserSearch';
 import queryFilter from '../../common/queryFilter';
 import { enableMap } from '../../common/fieldMap';
-import { filterQuery } from '../../utils/apolloHandler';
-import { mapToFilters, convertToOrder } from '../../utils/dataMapping';
+import {
+  convertFilterToInt,
+  convertToOrder,
+  convertToIntArr,
+  filterQuery,
+  mapToFilters,
+} from '../../utils/queryHelper';
 
 const { Column } = Table;
 
@@ -15,39 +20,49 @@ const { Column } = Table;
  * 用户管理
  */
 export default class UserManage extends React.Component {
+  // 组装查询条件
+  handleConvertToSearch = ({ enable, roleIds, ...queryInput }) => ({
+    ...filterQuery(queryInput),
+    enable: convertFilterToInt(enable),
+    roleIds: convertToIntArr(roleIds),
+  });
+
+  // 表单改变监听
+  handleTableChange = (client, userQueryInput, pagination, filters, sorter) => {
+    client.writeData({
+      data: {
+        userQueryInput: {
+          ...userQueryInput,
+          ...filters,
+          order: convertToOrder(sorter),
+          page: pagination.current,
+          size: pagination.pageSize,
+        },
+      },
+    });
+  };
+
   render() {
     return (
       <Query query={GET_USER_QUERY_INPUT}>
         {({ data: { userQueryInput }, client }) => (
           <Query
             query={GET_USER_LIST}
-            variables={{ input: filterQuery(userQueryInput) }}
+            variables={{ input: this.handleConvertToSearch(userQueryInput) }}
           >
-            {queryFilter(({ data, loading }) => (
+            {queryFilter(({ data: { userList }, loading }) => (
               <Fragment>
                 <UserSearch client={client} userQueryInput={userQueryInput} />
                 <Table
                   loading={loading}
-                  dataSource={data.userList.rows}
+                  dataSource={userList.rows}
                   pagination={{
                     pageSize: userQueryInput.size,
                     current: userQueryInput.page,
-                    total: data.userList.count,
+                    total: userList.count,
                   }}
                   rowKey="id"
-                  onChange={(pagination, filters, sorter) => {
-                    client.writeData({
-                      data: {
-                        userQueryInput: {
-                          ...userQueryInput,
-                          ...filters,
-                          order: convertToOrder(sorter),
-                          page: pagination.current,
-                          size: pagination.pageSize,
-                        },
-                      },
-                    });
-                  }}
+                  onChange={(...rest) => this.handleTableChange(client, userQueryInput, ...rest)}
                   bordered
                 >
                   <Column title="用户名" dataIndex="username" />
