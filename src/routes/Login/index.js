@@ -14,9 +14,11 @@ const Container = styled.section`
   align-items: center;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to top,
+  background: linear-gradient(
+    to top,
     ${props => darken(0.2, props.theme.primaryColor)} 5%,
-    ${props => props.theme.primaryColor} 100%);
+    ${props => props.theme.primaryColor} 100%
+  );
   overflow: hidden;
 `;
 
@@ -71,14 +73,29 @@ class Login extends React.Component {
                 <Form.Item>
                   {getFieldDecorator('username', {
                     rules: [{ required: true, message: '请输入用户名！' }],
-                  })(<Input prefix={<Icon type="user" />} placeholder="用户名" maxLength={20} />)}
+                  })(
+                    <Input
+                      prefix={<Icon type="user" />}
+                      placeholder="用户名"
+                      maxLength={20}
+                    />,
+                  )}
                 </Form.Item>
                 <Form.Item>
                   {getFieldDecorator('password', {
                     rules: [{ required: true, message: '请输入密码！' }],
-                  })(<Input prefix={<Icon type="lock" />} type="password" placeholder="密码" maxLength={20} />)}
+                  })(
+                    <Input
+                      prefix={<Icon type="lock" />}
+                      type="password"
+                      placeholder="密码"
+                      maxLength={20}
+                    />,
+                  )}
                 </Form.Item>
-                <Button type="primary" htmlType="submit" loading={loading}>登录</Button>
+                <Button type="primary" htmlType="submit" loading={loading}>
+                  登录
+                </Button>
               </Form>
             </Content>
           </Container>
