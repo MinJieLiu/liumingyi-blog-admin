@@ -1,7 +1,7 @@
 /**
  * 获取当前错误信息
- * @param e Exception
- * @returns { String }
+ * @param {Error} e
+ * @return {String}
  */
 export const getCurrentErrorMessage = (e) => {
   if (e.graphQLErrors && e.graphQLErrors.length) {

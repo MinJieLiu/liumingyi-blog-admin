@@ -1,10 +1,10 @@
 import pickBy from 'lodash/pickBy';
 
 /**
- * 将 Antd 排序转换为数组
- * 使用场景：Antd Table
- * @param { Object } sorter
- * @return { Array | null }
+ * 将 AntD 排序转换为数组
+ * 使用场景：AntD Table
+ * @param {Object} sorter - AntD sorter 对象
+ * @return {Array | null}
  */
 export const convertToOrder = (sorter) => {
   if (sorter && sorter.field) {
@@ -14,10 +14,10 @@ export const convertToOrder = (sorter) => {
 };
 
 /**
- * 将 Antd 筛选参数数组，转换为 Int
+ * 将 AntD 筛选参数数组，转换为 Int
  * 使用场景：转换查询参数
- * @param { Array } arr
- * @return { Number | undefined }
+ * @param {Array} arr - AntD 表格 Filter 数组
+ * @return {Number | undefined}
  */
 export const convertFilterToInt = (arr) => {
   if (Array.isArray(arr)) {
@@ -31,8 +31,8 @@ export const convertFilterToInt = (arr) => {
 /**
  * 将字符串数组转换为 Int 数组
  * 使用场景：转换查询参数
- * @param { Array } arr
- * @return { Array | undefined}
+ * @param {Array} arr - 字符串数组
+ * @return {Array | undefined}
  */
 export const convertToIntArr = (arr) => {
   if (arr) {
@@ -46,17 +46,8 @@ export const convertToIntArr = (arr) => {
  * 避免 __typename 传入服务端
  * 过滤值为 null 的数据
  * 使用场景：转换查询参数
- * @param { Object } queryObj
- * @returns { Object }
+ * @param {Object} query - 查询对象
+ * @return {Object} - 过滤后的数据
  */
-export const filterQuery = queryObj =>
-  pickBy(queryObj, (value, key) => value !== null && key !== '__typename');
-
-/**
- * 将数据映射转换为 Antd Table Filter
- * 使用场景：Antd Table
- * @param dataMap
- * @returns { Array }
- */
-export const mapToFilters = dataMap =>
-  Object.keys(dataMap).map(item => ({ text: dataMap[item], value: item }));
+export const filterQuery = query =>
+  pickBy(query, (value, key) => value !== null && key !== '__typename');

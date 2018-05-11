@@ -11,8 +11,10 @@ import {
   convertToOrder,
   convertToIntArr,
   filterQuery,
-  mapToFilters,
 } from '../../utils/queryHelper';
+import {
+  mapToFilters,
+} from '../../utils/dataMapping';
 
 const { Column } = Table;
 

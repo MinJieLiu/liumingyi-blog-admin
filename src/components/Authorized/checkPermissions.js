@@ -1,9 +1,9 @@
 /**
  * 通用权限检查方法
- * @param { Array } currentAuthority - 用户拥有的权限
- * @param { String | Array | Function } authority - 功能所需权限
- * @param { React.Component } target - 通过的组件
- * @param { React.Component } Exception - 未通过的组件
+ * @param {Array} currentAuthority - 用户拥有的权限
+ * @param {String | Array | Function} authority - 功能所需权限
+ * @param {React.Component} target - 通过的组件
+ * @param {React.Component} Exception - 未通过的组件
  */
 const checkPermissions = (currentAuthority = [], authority, target, Exception) => {
   // 没有判定权限，默认查看所有

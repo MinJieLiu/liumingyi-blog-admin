@@ -2,7 +2,7 @@ const kebabCase = require('lodash/kebabCase');
 const mapKeys = require('lodash/mapKeys');
 
 /**
- * styled-components 和 antd 共用变量
+ * styled-components 和 AntD 共用变量
  * @type {Object}
  */
 const themeConfig = {

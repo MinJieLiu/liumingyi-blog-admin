@@ -12,9 +12,9 @@ const StyledBreadcrumb = styled(Breadcrumb)`
 
 /**
  * 递归生成菜单数组
- * @param { Array } menus
- * @param { Array } currentMenuArr
- * @returns { Array }
+ * @param {Array} menus - 菜单
+ * @param {Array} currentMenuArr - 当前的菜单
+ * @return {Array}
  */
 const generateMenuArr = (menus, currentMenuArr) => {
   if (currentMenuArr.length) {

@@ -9,8 +9,8 @@ const Exception403 = () => <Exception type="403" />;
 
 /**
  * 用于判断是否拥有访问此 view 的权限
- * @param { string | Array | function } authority
- * @param { React.Component } error
+ * @param {String | Array | Function} authority
+ * @param {React.Component} error
  */
 export default (authority, error) => targer => (
   <Authorized
