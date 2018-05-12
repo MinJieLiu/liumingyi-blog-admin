@@ -7,7 +7,7 @@ export const defaultQueryInput = {
   __typename: 'UserQueryInput',
   page: 1,
   size: defaultPageSize,
-  order: null,
+  order: [],
   username: '',
   email: '',
   mobile: '',

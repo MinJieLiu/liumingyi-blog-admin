@@ -1,19 +1,6 @@
 import pickBy from 'lodash/pickBy';
 
 /**
- * 将 AntD 排序转换为数组
- * 使用场景：AntD Table
- * @param {Object} sorter - AntD sorter 对象
- * @return {Array | null}
- */
-export const convertToOrder = (sorter) => {
-  if (sorter && sorter.field) {
-    return [sorter.field, sorter.order === 'ascend' ? 'ASC' : 'DESC'];
-  }
-  return null;
-};
-
-/**
  * 将 AntD 筛选参数数组，转换为 Int
  * 使用场景：转换查询参数
  * @param {Array} arr - AntD 表格 Filter 数组

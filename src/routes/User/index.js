@@ -8,11 +8,12 @@ import queryFilter from '../../common/queryFilter';
 import { enableMap } from '../../common/fieldMap';
 import {
   convertFilterToInt,
-  convertToOrder,
   convertToIntArr,
   filterQuery,
 } from '../../utils/queryHelper';
 import {
+  convertToOrderArr,
+  convertToSortValue,
   mapToFilters,
 } from '../../utils/dataMapping';
 
@@ -36,7 +37,7 @@ export default class UserManage extends React.Component {
         userQueryInput: {
           ...userQueryInput,
           ...filters,
-          order: convertToOrder(sorter),
+          order: convertToOrderArr(sorter),
           page: pagination.current,
           size: pagination.pageSize,
         },
@@ -88,12 +89,14 @@ export default class UserManage extends React.Component {
                     title="创建日期"
                     dataIndex="createdAt"
                     sorter
+                    sortOrder={convertToSortValue(userQueryInput.order, 'createdAt')}
                     render={time => DateTime.fromMillis(time).toISODate()}
                   />
                   <Column
                     title="更新日期"
                     dataIndex="updatedAt"
                     sorter
+                    sortOrder={convertToSortValue(userQueryInput.order, 'updatedAt')}
                     render={time => DateTime.fromMillis(time).toISODate()}
                   />
                   <Column

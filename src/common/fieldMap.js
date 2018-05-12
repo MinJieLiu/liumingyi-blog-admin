@@ -1,3 +1,5 @@
+import invert from 'lodash/invert';
+
 /**
  * Boolean
  */
@@ -22,3 +24,16 @@ export const menuTypeMap = {
   2: '链接',
   3: '按钮',
 };
+
+/**
+ * AntD 排序
+ */
+export const sorterMap = {
+  ascend: 'ASC',
+  descend: 'DESC',
+};
+
+/**
+ * 数据库排序
+ */
+export const orderMap = invert(sorterMap);
