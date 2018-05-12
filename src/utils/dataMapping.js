@@ -15,7 +15,6 @@ export const convertToOrderArr = (sorter) => {
 
 /**
  * 将排序数组转换为字段受控值
- * one of 'ascend'、'descend'、false
  * @param {Array} order - 排序数组
  * @param {String} currName - 当前字段
  */
