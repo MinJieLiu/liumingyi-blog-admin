@@ -24,27 +24,13 @@ const { Column } = Table;
 /**
  * 用户管理
  */
-export default class UserManage extends React.Component {
+export default class UserManage extends React.PureComponent {
   // 组装查询条件
   handleConvertToSearch = ({ enable, roleIds, ...queryInput }) => ({
     ...filterQuery(queryInput),
     enable: convertFilterToInt(enable),
     roleIds: convertToIntArr(roleIds),
   });
-
-  // 表单改变监听
-  handleTableChange = (client, userQueryInput, pagination, filters, sorter) => {
-    client.writeData({
-      data: {
-        userQueryInput: {
-          ...userQueryInput,
-          ...convertToServerPaging(pagination),
-          ...filters,
-          order: convertToOrderArr(sorter),
-        },
-      },
-    });
-  };
 
   render() {
     return (
@@ -65,7 +51,18 @@ export default class UserManage extends React.Component {
                     total: userList.count,
                   }}
                   rowKey="id"
-                  onChange={(...rest) => this.handleTableChange(client, userQueryInput, ...rest)}
+                  onChange={(pagination, filters, sorter) => {
+                    client.writeData({
+                      data: {
+                        userQueryInput: {
+                          ...userQueryInput,
+                          ...convertToServerPaging(pagination),
+                          ...filters,
+                          order: convertToOrderArr(sorter),
+                        },
+                      },
+                    });
+                  }}
                   bordered
                 >
                   <Column title="用户名" dataIndex="username" />

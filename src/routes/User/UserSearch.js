@@ -60,28 +60,28 @@ class UserSearch extends React.Component {
       <SearchContainer>
         <Form onSubmit={this.handleSearch}>
           <Row type="flex" align="middle" gutter={24}>
-            <Col xl={6} xxl={4}>
+            <Col span={6} xxl={4}>
               <FormField label="用户名">
                 {getFieldDecorator('username', { initialValue: defaultQueryInput.username })(
                   <Input placeholder="用户名" maxLength={20} />,
                 )}
               </FormField>
             </Col>
-            <Col xl={6} xxl={4}>
+            <Col span={6} xxl={4}>
               <FormField label="邮箱">
                 {getFieldDecorator('email', { initialValue: defaultQueryInput.email })(
                   <Input placeholder="邮箱" maxLength={20} />,
                 )}
               </FormField>
             </Col>
-            <Col xl={6} xxl={4}>
+            <Col span={6} xxl={4}>
               <FormField label="手机">
                 {getFieldDecorator('mobile', { initialValue: defaultQueryInput.mobile })(
                   <Input placeholder="手机" maxLength={20} />,
                 )}
               </FormField>
             </Col>
-            <Col xl={6} xxl={4}>
+            <Col span={6} xxl={4}>
               <FormField label="角色">
                 <Query query={GET_ROLE_FOR_SELECT}>
                   {queryFilter(({ data }) =>

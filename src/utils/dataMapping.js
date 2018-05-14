@@ -17,6 +17,7 @@ export const convertToOrderArr = (sorter) => {
  * 将排序数组转换为字段受控值
  * @param {Array} order - 排序数组
  * @param {String} currName - 当前字段
+ * @return {String | Boolean}
  */
 export const convertToSortValue = (order, currName) => {
   if (order.length) {
