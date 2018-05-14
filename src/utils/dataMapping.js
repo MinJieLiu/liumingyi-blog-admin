@@ -29,6 +29,26 @@ export const convertToSortValue = (order, currName) => {
 };
 
 /**
+ * 转换为服务端分页
+ * @param {Object} pagination - 客户端分页数据
+ * @return {Object}
+ */
+export const convertToServerPaging = pagination => ({
+  page: pagination.current,
+  size: pagination.pageSize,
+});
+
+/**
+ * 转换为客户端分页
+ * @param {Object} queryInput - 分页数据
+ * @return {Object}
+ */
+export const convertToClientPaging = queryInput => ({
+  current: queryInput.page,
+  pageSize: queryInput.size,
+});
+
+/**
  * 将字段映射转换为 AntD 表格 filter 结构数组
  * 使用场景：AntD Table
  * @param {Object} dataMap - 字段映射对象

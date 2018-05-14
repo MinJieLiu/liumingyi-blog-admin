@@ -14,6 +14,8 @@ import {
 import {
   convertToOrderArr,
   convertToSortValue,
+  convertToServerPaging,
+  convertToClientPaging,
   mapToFilters,
 } from '../../utils/dataMapping';
 
@@ -36,10 +38,9 @@ export default class UserManage extends React.Component {
       data: {
         userQueryInput: {
           ...userQueryInput,
+          ...convertToServerPaging(pagination),
           ...filters,
           order: convertToOrderArr(sorter),
-          page: pagination.current,
-          size: pagination.pageSize,
         },
       },
     });
@@ -60,8 +61,7 @@ export default class UserManage extends React.Component {
                   loading={loading}
                   dataSource={userList.rows}
                   pagination={{
-                    pageSize: userQueryInput.size,
-                    current: userQueryInput.page,
+                    ...convertToClientPaging(userQueryInput),
                     total: userList.count,
                   }}
                   rowKey="id"
