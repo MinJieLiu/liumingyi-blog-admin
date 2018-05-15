@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Row, Col, Form, Button, Input, Select } from 'antd';
 import queryFilter from '../../common/queryFilter';
 import FormField from '../../components/Search/FormField';
+import FormModal from './FormModal';
 import { GET_ROLE_FOR_SELECT } from '../../services/role';
 import { defaultQueryInput } from '../../resolvers/user';
 
@@ -101,10 +102,13 @@ class UserSearch extends React.Component {
               </FormField>
             </Col>
           </Row>
-          <Row>
-            <Col span={24}>
-              <Button type="primary" htmlType="submit">查询</Button>
-              <Button onClick={this.handleClear}>清空</Button>
+          <Row type="flex" align="middle" gutter={12}>
+            <Col><Button type="primary" htmlType="submit">查询</Button></Col>
+            <Col><Button onClick={this.handleClear}>清空</Button></Col>
+            <Col>
+              <FormModal>
+                <Button onClick={this.handleClear}>新增</Button>
+              </FormModal>
             </Col>
           </Row>
         </Form>
