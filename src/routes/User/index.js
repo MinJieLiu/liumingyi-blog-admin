@@ -39,6 +39,7 @@ export default class UserManage extends React.PureComponent {
           <Query
             query={GET_USER_LIST}
             variables={{ input: this.handleConvertToSearch(userQueryInput) }}
+            fetchPolicy="network-only"
           >
             {queryFilter(({ data: { userList }, loading }) => (
               <Fragment>

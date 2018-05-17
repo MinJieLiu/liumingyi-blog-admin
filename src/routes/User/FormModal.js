@@ -75,6 +75,12 @@ class FormModal extends React.Component {
               },
             },
           });
+          message.success('操作成功');
+
+          // 重置表单
+          if (!userItem.id) {
+            form.resetFields();
+          }
           this.handleHideModal();
         } catch (ex) {
           message.error(getCurrentErrorMessage(ex));
@@ -108,32 +114,38 @@ class FormModal extends React.Component {
                   {getFieldDecorator('username', {
                     initialValue: userItem.username,
                     rules: [
-                      { required: true, message: '必填' },
+                      { required: true },
+                      { pattern: /^[a-z0-9_-]{4,}$/, message: '格式不正确' },
                     ],
-                  })(<Input />)}
+                  })(<Input maxLength={20} />)}
                 </Form.Item>
 
                 <Form.Item {...formItemLayout} label="密码">
                   {getFieldDecorator('password', {
-                    initialValue: '',
-                  })(<Input />)}
+                    rules: [
+                      // 用户修改密码不必填
+                      ...userItem.id
+                        ? []
+                        : [{ required: true }],
+                      { min: 6 },
+                    ],
+                  })(<Input maxLength={32} />)}
                 </Form.Item>
 
                 <Form.Item {...formItemLayout} label="邮箱">
                   {getFieldDecorator('email', {
                     initialValue: userItem.email,
                     rules: [
-                      { required: true, message: '必填' },
-                      { type: 'email', message: '格式不正确' },
+                      { type: 'email' },
                     ],
-                  })(<Input />)}
+                  })(<Input maxLength={32} />)}
                 </Form.Item>
 
                 <Form.Item {...formItemLayout} label="手机">
                   {getFieldDecorator('mobile', {
                     initialValue: userItem.mobile,
                     rules: [
-                      { required: true, message: '必填' },
+                      { pattern: /^1[3-9]\d{9}$/, message: '格式不正确' },
                     ],
                   })(<Input />)}
                 </Form.Item>
@@ -141,14 +153,14 @@ class FormModal extends React.Component {
                 <Form.Item {...formItemLayout} label="昵称">
                   {getFieldDecorator('nickname', {
                     initialValue: userItem.nickname,
-                  })(<Input />)}
+                  })(<Input maxLength={20} />)}
                 </Form.Item>
 
                 <Form.Item {...formItemLayout} label="启用状态">
                   {getFieldDecorator('enable', {
                     initialValue: userItem.enable,
                     rules: [
-                      { required: true, message: '必填' },
+                      { required: true },
                     ],
                   })(
                     <Select placeholder="请选择">
@@ -160,13 +172,13 @@ class FormModal extends React.Component {
                   )}
                 </Form.Item>
 
-                <Form.Item {...formItemLayout} label="角色">
-                  <Query query={GET_ROLE_FOR_SELECT}>
-                    {queryFilter(({ data }) =>
-                      getFieldDecorator('roleIds', {
+                <Query query={GET_ROLE_FOR_SELECT}>
+                  {queryFilter(({ data }) => (
+                    <Form.Item {...formItemLayout} label="角色">
+                      {getFieldDecorator('roleIds', {
                         initialValue: userItem.roles ? userItem.roles.map(n => n.id) : [],
                         rules: [
-                          { required: true, message: '必填' },
+                          { required: true },
                         ],
                       })(
                         <Select
@@ -178,9 +190,15 @@ class FormModal extends React.Component {
                             <Select.Option key={item.id}>{item.name}</Select.Option>
                           ))}
                         </Select>,
-                      ),
-                    )}
-                  </Query>
+                      )}
+                    </Form.Item>
+                  ))}
+                </Query>
+
+                <Form.Item {...formItemLayout} label="介绍">
+                  {getFieldDecorator('introduction', {
+                    initialValue: userItem.introduction,
+                  })(<Input.TextArea maxLength={1024} />)}
                 </Form.Item>
               </Form>
             </Modal>
