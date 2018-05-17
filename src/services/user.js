@@ -1,5 +1,26 @@
 import gql from 'graphql-tag';
 
+const basicFragment = gql`
+  fragment basicUser on User {
+    id
+    username
+    email
+    mobile
+    enable
+    isActive
+    nickname
+    avatar
+    introduction
+    roles {
+      id
+      name
+      sort
+    }
+    createdAt
+    updatedAt
+  }
+`;
+
 export const LOGIN = gql`
   mutation login($username: String! $password: String!) {
     login(username: $username password: $password) {
@@ -43,24 +64,28 @@ export const GET_USER_LIST = gql`
   query getUserList($input: UserQueryInput) {
     userList(input: $input) {
       rows {
-        id
-        username
-        email
-        mobile
-        enable
-        isActive
-        nickname
-        avatar
-        introduction
-        roles {
-          id
-          name
-          sort
-        }
-        createdAt
-        updatedAt
+        ...basicUser
       }
       count
     }
   }
+  ${basicFragment}
+`;
+
+export const CREATE_USER = gql`
+  mutation createUser($input: UserCreateInput!) {
+    createUser(input: $input) {
+      ...basicUser
+    }
+  }
+  ${basicFragment}
+`;
+
+export const UPDATE_USER = gql`
+  mutation updateUser($input: UserUpdateInput!) {
+    updateUser(input: $input) {
+      ...basicUser
+    }
+  }
+  ${basicFragment}
 `;
