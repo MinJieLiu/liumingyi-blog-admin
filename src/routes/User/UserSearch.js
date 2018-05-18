@@ -1,18 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
-import styled from 'styled-components';
-import { Row, Col, Form, Button, Input, Select } from 'antd';
+import {
+  Row,
+  Col,
+  Form,
+  Button,
+  Input,
+  Select,
+} from 'antd';
 import queryFilter from '../../common/queryFilter';
-import FormField from '../../components/Search/FormField';
+import {
+  FormField,
+  SearchContainer,
+} from '../../components/MainForm';
 import FormModal from './FormModal';
 import { GET_ROLE_FOR_SELECT } from '../../services/role';
 import { defaultQueryInput } from '../../resolvers/user';
 
-const SearchContainer = styled.section`
-  margin-bottom: 24px;
-  overflow: hidden;
-`;
 
 /**
  * 用户搜索
@@ -91,6 +96,7 @@ class UserSearch extends React.Component {
                         showSearch
                         mode="multiple"
                         placeholder="角色"
+                        filterOption={(input, option) => option.props.children.includes(input)}
                       >
                         {data.roleList.rows.map(item => (
                           <Select.Option key={item.id}>{item.name}</Select.Option>

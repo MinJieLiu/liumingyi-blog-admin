@@ -1,6 +1,32 @@
 import pickBy from 'lodash/pickBy';
 
 /**
+ * 将 Int 数据转换为 String
+ * 使用场景：数据转换为表单
+ * @param {Number} value
+ * @return {String | undefined}
+ */
+export const convertNumberToString = (value) => {
+  if (Number.isInteger(value)) {
+    return String(value);
+  }
+  return undefined;
+};
+
+/**
+ * 将 String 数据转换为 Int
+ * 使用场景：表单转换为数据
+ * @param {String} value
+ * @return {Number | undefined}
+ */
+export const convertStringToNumber = (value) => {
+  if (typeof value === 'string') {
+    return Number(value);
+  }
+  return undefined;
+};
+
+/**
  * 将 AntD 筛选参数数组，转换为 Int
  * 使用场景：转换查询参数
  * @param {Array} arr - AntD 表格 Filter 数组

@@ -1,9 +1,22 @@
 import React, { Fragment } from 'react';
 import { DateTime } from 'luxon';
-import { Query } from 'react-apollo';
-import { Table, Icon } from 'antd';
-import { GET_USER_LIST, GET_USER_QUERY_INPUT } from '../../services/user';
+import { Query, Mutation } from 'react-apollo';
+import {
+  Table,
+  Icon,
+  Popconfirm,
+  message,
+} from 'antd';
+import {
+  GET_USER_LIST,
+  GET_USER_QUERY_INPUT,
+  DELETE_USER,
+} from '../../services/user';
+import {
+  EditWrap,
+} from '../../components/MainForm';
 import UserSearch from './UserSearch';
+import FormModal from './FormModal';
 import queryFilter from '../../common/queryFilter';
 import { enableMap } from '../../common/fieldMap';
 import {
@@ -32,6 +45,17 @@ export default class UserManage extends React.PureComponent {
     roleIds: convertToIntArr(roleIds),
   });
 
+  // 删除
+  handleDeleteItem = async (id, mutate, refetch) => {
+    try {
+      await mutate({ variables: { id } });
+      message.success('操作成功');
+      refetch();
+    } catch (e) {
+      message.error(e.message);
+    }
+  };
+
   render() {
     return (
       <Query query={GET_USER_QUERY_INPUT}>
@@ -41,7 +65,7 @@ export default class UserManage extends React.PureComponent {
             variables={{ input: this.handleConvertToSearch(userQueryInput) }}
             fetchPolicy="network-only"
           >
-            {queryFilter(({ data: { userList }, loading }) => (
+            {queryFilter(({ data: { userList }, loading, refetch }) => (
               <Fragment>
                 <UserSearch client={client} userQueryInput={userQueryInput} />
                 <Table
@@ -100,11 +124,23 @@ export default class UserManage extends React.PureComponent {
                   <Column
                     title="操作"
                     key="operate"
-                    render={() => (
-                      <Fragment>
-                        <Icon type="edit" title="修改" />
-                        <Icon type="delete" title="删除" />
-                      </Fragment>
+                    render={(text, item) => (
+                      <EditWrap>
+                        <FormModal userItem={item}>
+                          <Icon type="edit" title="修改" />
+                        </FormModal>
+                        <Mutation mutation={DELETE_USER}>
+                          {mutate => (
+                            <Popconfirm
+                              title="确认删除？"
+                              onConfirm={() =>
+                                this.handleDeleteItem(item.id, mutate, refetch)}
+                            >
+                              <Icon type="delete" title="删除" />
+                            </Popconfirm>
+                          )}
+                        </Mutation>
+                      </EditWrap>
                     )}
                   />
                 </Table>

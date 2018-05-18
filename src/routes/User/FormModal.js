@@ -14,6 +14,8 @@ import { GET_ROLE_FOR_SELECT } from '../../services/role';
 import queryFilter from '../../common/queryFilter';
 import { getCurrentErrorMessage } from '../../utils/graphQLErrorHandler';
 import {
+  convertNumberToString,
+  convertStringToNumber,
   convertToIntArr,
 } from '../../utils/queryHelper';
 
@@ -69,8 +71,9 @@ class FormModal extends React.Component {
           await mutate({
             variables: {
               input: {
-                ...userItem,
                 ...values,
+                id: userItem ? userItem.id : undefined,
+                enable: convertStringToNumber(values.enable),
                 roleIds: convertToIntArr(values.roleIds),
               },
             },
@@ -158,7 +161,7 @@ class FormModal extends React.Component {
 
                 <Form.Item {...formItemLayout} label="启用状态">
                   {getFieldDecorator('enable', {
-                    initialValue: userItem.enable,
+                    initialValue: convertNumberToString(userItem.enable),
                     rules: [
                       { required: true },
                     ],
@@ -176,7 +179,7 @@ class FormModal extends React.Component {
                   {queryFilter(({ data }) => (
                     <Form.Item {...formItemLayout} label="角色">
                       {getFieldDecorator('roleIds', {
-                        initialValue: userItem.roles ? userItem.roles.map(n => n.id) : [],
+                        initialValue: userItem.roles ? userItem.roles.map(n => String(n.id)) : [],
                         rules: [
                           { required: true },
                         ],
@@ -185,9 +188,10 @@ class FormModal extends React.Component {
                           showSearch
                           mode="multiple"
                           placeholder="请选择"
+                          filterOption={(input, option) => option.props.children.includes(input)}
                         >
                           {data.roleList.rows.map(item => (
-                            <Select.Option key={item.id}>{item.name}</Select.Option>
+                            <Select.Option key={String(item.id)}>{item.name}</Select.Option>
                           ))}
                         </Select>,
                       )}
