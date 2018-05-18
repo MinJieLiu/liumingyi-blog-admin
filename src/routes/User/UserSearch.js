@@ -60,7 +60,10 @@ class UserSearch extends React.Component {
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const {
+      form: { getFieldDecorator },
+      userQueryInput,
+    } = this.props;
 
     return (
       <SearchContainer>
@@ -68,21 +71,21 @@ class UserSearch extends React.Component {
           <Row type="flex" align="middle" gutter={24}>
             <Col span={6} xxl={4}>
               <FormField label="用户名">
-                {getFieldDecorator('username', { initialValue: defaultQueryInput.username })(
+                {getFieldDecorator('username', { initialValue: userQueryInput.username })(
                   <Input placeholder="用户名" maxLength={20} />,
                 )}
               </FormField>
             </Col>
             <Col span={6} xxl={4}>
               <FormField label="邮箱">
-                {getFieldDecorator('email', { initialValue: defaultQueryInput.email })(
+                {getFieldDecorator('email', { initialValue: userQueryInput.email })(
                   <Input placeholder="邮箱" maxLength={20} />,
                 )}
               </FormField>
             </Col>
             <Col span={6} xxl={4}>
               <FormField label="手机">
-                {getFieldDecorator('mobile', { initialValue: defaultQueryInput.mobile })(
+                {getFieldDecorator('mobile', { initialValue: userQueryInput.mobile })(
                   <Input placeholder="手机" maxLength={20} />,
                 )}
               </FormField>
@@ -91,7 +94,7 @@ class UserSearch extends React.Component {
               <FormField label="角色">
                 <Query query={GET_ROLE_FOR_SELECT}>
                   {queryFilter(({ data }) =>
-                    getFieldDecorator('roleIds', { initialValue: defaultQueryInput.roleIds })(
+                    getFieldDecorator('roleIds', { initialValue: userQueryInput.roleIds })(
                       <Select
                         showSearch
                         mode="multiple"
