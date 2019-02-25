@@ -10,8 +10,7 @@ function getAsyncComponent(config) {
   return class DynamicComponent extends React.Component {
     constructor(...args) {
       super(...args);
-      this.LoadingComponent =
-        config.LoadingComponent || defaultLoadingComponent;
+      this.LoadingComponent = config.LoadingComponent || defaultLoadingComponent;
       this.state = {
         AsyncComponent: null,
       };

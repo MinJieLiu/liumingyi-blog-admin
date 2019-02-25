@@ -1,15 +1,22 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-const { injectBabelPlugin, compose } = require('react-app-rewired');
-const rewireLess = require('react-app-rewire-less');
+const {
+  override,
+  fixBabelImports,
+  addBabelPlugin,
+  addLessLoader,
+} = require('customize-cra');
 const theme = require('./src/theme');
 
-const rewires = compose(
-  config => injectBabelPlugin(['styled-components'], config),
-  rewireLess.withLoaderOptions({
+module.exports = override(
+  addBabelPlugin('styled-components'),
+  fixBabelImports('import', {
+    libraryName: 'antd',
+    libraryDirectory: 'es',
+    style: true,
+  }),
+  addLessLoader({
+    javascriptEnabled: true,
     modifyVars: theme.lessVarConfig,
   }),
-  config => injectBabelPlugin(['import', { libraryName: 'antd', style: true }], config),
 );
-
-module.exports = (config, env) => rewires(config, env);
